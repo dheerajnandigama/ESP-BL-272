@@ -52,7 +52,7 @@ function FileDropDown({
             <HiOutlineArrowsExpand className="h-5 w-5" />
             <span className="text-sm">Open File</span>
           </div> */}
-          {!isFolderComp && (
+          {/* {!isFolderComp && (
             <a
               href={file.fileLink}
               download={file.fileName}
@@ -61,7 +61,7 @@ function FileDropDown({
               <TbDownload className="h-5 w-5" />
               <span className="text-sm">Download</span>
             </a>
-          )}
+          )} */}
 
           <div
             onClick={() => setRenameToggle(file.id)}

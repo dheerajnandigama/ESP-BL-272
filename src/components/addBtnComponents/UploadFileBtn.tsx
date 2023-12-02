@@ -31,6 +31,7 @@ function UploadFileBtn({ uploadFile }: { uploadFile: Function }) {
   const upload = (e:any)=>{
     console.log(password)
     uploadFile(e,password)
+    onCloseModal()
   }
 
 
