@@ -1,0 +1,28 @@
+name: CICD
+
+on:
+  push:
+    branches: [jeswanthv]
+
+jobs:
+  build:
+    runs-on: [ubuntu-latest]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Login to docker hub
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build and publish docker image
+        run: |
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/guardian .
+          docker push ${{ secrets.DOCKER_USERNAME }}/guardian:latest
+  deploy:
+    needs: build
+    runs-on: [aws-ec2]
+    steps:
+      - name: Pull image from docker hub
+        run: docker pull ${{ secrets.DOCKER_USERNAME }}/guardian:latest
+      - name: Delete container
+        run: docker rm -f nodejs-app-container
+      - name: Run docker container
+        run: docker run -d --name nodejs-app-container -p 80:3000 ${{ secrets.DOCKER_USERNAME }}/guardian
